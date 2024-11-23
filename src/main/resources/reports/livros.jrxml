@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 6.20.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="livros" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="562f9c81-ccc8-4729-9195-592b0af31f2c">
+	<queryString>
+		<![CDATA[SELECT 
+                cod_livro, 
+                titulo_livro, 
+                editora_livro, 
+                edicao_livro, 
+                ano_publicacao_livro, 
+                nome_autores, 
+                descricao_assuntos
+            FROM livro_detalhes]]>
+	</queryString>
+	<field name="cod_livro" class="java.lang.Integer"/>
+	<field name="titulo_livro" class="java.lang.String"/>
+	<field name="editora_livro" class="java.lang.String"/>
+	<field name="edicao_livro" class="java.lang.Integer"/>
+	<field name="ano_publicacao_livro" class="java.lang.String"/>
+	<field name="nome_autores" class="java.lang.String"/>
+	<field name="descricao_assuntos" class="java.lang.String"/>
+	<title>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="200" y="10" width="200" height="30" uuid="19fc2e96-a44e-4690-bf69-40cc060dbc54"/>
+				<text><![CDATA[Relatório de Livros Detalhados]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="30" height="20" uuid="578bd904-63b8-4bfc-84fa-3c4071a8e9e3"/>
+				<text><![CDATA[Cód.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="0" width="150" height="20" uuid="8c554c31-2481-4633-a7bb-bc199c6d6f24"/>
+				<text><![CDATA[Título]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="0" width="60" height="20" uuid="436cde50-5616-4bec-85b6-6a7141169e99"/>
+				<text><![CDATA[Editora]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="0" width="40" height="20" uuid="a097da62-c498-4800-9afd-228898b1ac20"/>
+				<text><![CDATA[Edição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="0" width="50" height="20" uuid="fefac1e3-1f8e-4a5e-8de4-e59f3efb7f88"/>
+				<text><![CDATA[Ano]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="0" width="110" height="20" uuid="82920828-51cc-4c21-a365-f5048df144ff"/>
+				<text><![CDATA[Autores]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="0" width="115" height="20" uuid="5a847509-917b-4de7-a4f1-d1a0bde635df"/>
+				<text><![CDATA[Assunto]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="30" height="20" uuid="03594fe0-ffa4-422d-b685-b825fce6804a"/>
+				<textFieldExpression><![CDATA[$F{cod_livro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="0" width="150" height="20" uuid="1c21ee5e-df02-45d2-929f-3a5cdac76ba3"/>
+				<textFieldExpression><![CDATA[$F{titulo_livro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="0" width="60" height="20" uuid="bc8b1b04-b52a-41dd-8ddb-12b26753f518"/>
+				<textFieldExpression><![CDATA[$F{editora_livro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="240" y="0" width="40" height="20" uuid="cf3c6ba4-658d-4ff8-b615-f489bbb3864c"/>
+				<textFieldExpression><![CDATA[$F{edicao_livro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="0" width="50" height="20" uuid="99bec5fe-dfda-4c6b-b666-055319df83e4"/>
+				<textFieldExpression><![CDATA[$F{ano_publicacao_livro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="0" width="110" height="20" uuid="b5b61640-b6b9-493d-9222-8f0d7283f09e"/>
+				<textFieldExpression><![CDATA[$F{nome_autores}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="440" y="0" width="115" height="20" uuid="3b5d6b0f-7f65-42b3-a5fa-b0a1a0fca37a"/>
+				<textFieldExpression><![CDATA[$F{descricao_assuntos}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="30" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>
