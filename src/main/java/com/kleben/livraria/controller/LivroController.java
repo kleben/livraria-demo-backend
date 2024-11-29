@@ -4,8 +4,10 @@ import com.kleben.livraria.converter.AutorConverter;
 import com.kleben.livraria.converter.LivroConverter;
 import com.kleben.livraria.dto.LivroDTO;
 import com.kleben.livraria.exception.ErrorResponse;
+import com.kleben.livraria.exception.ValidationException;
 import com.kleben.livraria.model.Livro;
 import com.kleben.livraria.repository.LivroRepository;
+import com.kleben.livraria.service.LivroService;
 import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -39,6 +41,8 @@ public class LivroController {
 
     @Autowired
     private LivroRepository livroRepository;
+    @Autowired
+    private LivroService livroService;
     @Autowired
     private EntityManager entityManager;
     @Autowired
@@ -83,37 +87,38 @@ public class LivroController {
     @PostMapping
     public ResponseEntity<?> cadastrar(@Valid @RequestBody LivroDTO livroDTO) {
         try {
-            logger.info("Tentando cadastrar um novo livro.");
+            Livro livro = livroService.cadastrar(livroDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(livro);
 
-            // Validações adicionais (se necessário)
-            if (Objects.isNull(livroDTO) || livroDTO.getTituloLivro().isBlank()) {
-                logger.warn("Título do livro é obrigatório.");
-                ErrorResponse error = new ErrorResponse(
-                        HttpStatus.BAD_REQUEST.value(),
-                        "O título do livro é obrigatório."
-                );
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-            }
-
-            // Verifica duplicidade (baseado no título, por exemplo)
-            if (livroRepository.existsByTituloLivro(livroDTO.getTituloLivro().trim()) ) {
-                logger.warn("Livro com título '{}' já existe.", livroDTO.getTituloLivro());
-                ErrorResponse error = new ErrorResponse(
-                        HttpStatus.CONFLICT.value(),
-                        "Um livro com este título já existe."
-                );
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
-            }
-
-            // Converte DTO para entidade
-            Livro livro = livroConverter.toEntity(livroDTO);
-
-            // Salva o livro
-            Livro livroCriado = livroRepository.save(livro);
-
-            logger.info("Livro cadastrado com sucesso: ID = {}", livroCriado.getCodLivro());
-            return ResponseEntity.status(HttpStatus.CREATED).body(livroCriado);
-        } catch (DataIntegrityViolationException ex) {
+//            logger.info("Tentando cadastrar um novo livro.");
+//
+//            if (Objects.isNull(livroDTO) || livroDTO.getTituloLivro().isBlank()) {
+//                logger.warn("Título do livro é obrigatório.");
+//                ErrorResponse error = new ErrorResponse(
+//                        HttpStatus.BAD_REQUEST.value(),
+//                        "O título do livro é obrigatório."
+//                );
+//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+//            }
+//
+//            if (livroRepository.existsByTituloLivro(livroDTO.getTituloLivro().trim()) ) {
+//                logger.warn("Livro com título '{}' já existe.", livroDTO.getTituloLivro());
+//                ErrorResponse error = new ErrorResponse(
+//                        HttpStatus.CONFLICT.value(),
+//                        "Um livro com este título já existe."
+//                );
+//                return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+//            }
+//
+//            Livro livro = livroConverter.toEntity(livroDTO);
+//            Livro livroCriado = livroRepository.save(livro);
+//
+//            logger.info("Livro cadastrado com sucesso: ID = {}", livroCriado.getCodLivro());
+//            return ResponseEntity.status(HttpStatus.CREATED).body(livroCriado);
+        } catch (ValidationException ex) {
+            logger.error(ex.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }  catch (DataIntegrityViolationException ex) {
             logger.error("Violação de integridade de dados");
             return ResponseEntity.internalServerError().build();
         } catch (Exception e) {
